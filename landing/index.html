@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Content Factory — Команда AI-агентов для контента</title>
+    <meta name="description" content="6 AI-агентов создают контент для вашего бренда: посты, видео, карусели, стратегия. Установка в один клик. Работает 24/7.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --border: #262626;
+            --text: #fafafa;
+            --text-muted: #a1a1aa;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --green: #22c55e;
+            --orange: #f59e0b;
+            --purple: #a855f7;
+            --pink: #ec4899;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+        
+        /* Hero */
+        .hero {
+            padding: 100px 0 80px;
+            text-align: center;
+            background: radial-gradient(ellipse at top, rgba(59,130,246,0.15) 0%, transparent 60%);
+        }
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(59,130,246,0.1);
+            border: 1px solid rgba(59,130,246,0.3);
+            border-radius: 100px;
+            font-size: 14px;
+            color: var(--accent);
+            margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-size: clamp(36px, 5vw, 64px);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 20px;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 16px; font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+        .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover { border-color: var(--accent); }
+        
+        /* Install */
+        .install-block {
+            margin: 0 auto 80px;
+            max-width: 700px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .install-header {
+            padding: 12px 20px;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--text-muted);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .install-dots { display: flex; gap: 6px; }
+        .install-dots span { width: 12px; height: 12px; border-radius: 50%; }
+        .install-dots span:nth-child(1) { background: #ff5f57; }
+        .install-dots span:nth-child(2) { background: #febc2e; }
+        .install-dots span:nth-child(3) { background: #28c840; }
+        .install-code {
+            padding: 20px 24px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 15px;
+            color: var(--green);
+            overflow-x: auto;
+        }
+        .install-code .comment { color: var(--text-muted); }
+        
+        /* Agents */
+        .section { padding: 80px 0; }
+        .section-title {
+            font-size: 36px; font-weight: 700;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 18px;
+            margin-bottom: 48px;
+            max-width: 600px;
+            margin-left: auto; margin-right: auto;
+        }
+        
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        .agent-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            transition: border-color 0.2s;
+        }
+        .agent-card:hover { border-color: var(--accent); }
+        .agent-icon { font-size: 32px; margin-bottom: 12px; }
+        .agent-card h3 { font-size: 20px; margin-bottom: 8px; }
+        .agent-card p { color: var(--text-muted); font-size: 15px; margin-bottom: 16px; }
+        .agent-skills { display: flex; flex-wrap: wrap; gap: 6px; }
+        .skill-tag {
+            padding: 4px 10px;
+            background: rgba(59,130,246,0.1);
+            border: 1px solid rgba(59,130,246,0.2);
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--accent);
+        }
+        
+        /* Pipeline */
+        .pipeline {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            padding: 32px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 48px;
+        }
+        .pipeline-step {
+            padding: 10px 18px;
+            background: rgba(59,130,246,0.1);
+            border-radius: 8px;
+            font-size: 14px; font-weight: 600;
+        }
+        .pipeline-arrow { color: var(--text-muted); font-size: 18px; }
+        
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .feature {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+        }
+        .feature-icon { font-size: 28px; margin-bottom: 12px; }
+        .feature h3 { margin-bottom: 8px; }
+        .feature p { color: var(--text-muted); font-size: 15px; }
+        
+        /* Pricing */
+        .pricing-card {
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--surface);
+            border: 2px solid var(--accent);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+        }
+        .pricing-card h3 { font-size: 28px; margin-bottom: 8px; }
+        .pricing-card .price {
+            font-size: 48px; font-weight: 800;
+            margin: 16px 0;
+        }
+        .pricing-card .price span { font-size: 18px; color: var(--text-muted); font-weight: 400; }
+        .pricing-list {
+            text-align: left;
+            list-style: none;
+            margin: 24px 0;
+        }
+        .pricing-list li {
+            padding: 8px 0;
+            display: flex; align-items: center; gap: 10px;
+            color: var(--text-muted);
+        }
+        .pricing-list li::before { content: "✅"; }
+        
+        /* Examples */
+        .examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .example {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .example-prompt {
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+        .example-result { color: var(--text-muted); font-size: 14px; }
+        
+        /* FAQ */
+        .faq { max-width: 700px; margin: 0 auto; }
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+        }
+        .faq-q { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+        .faq-a { color: var(--text-muted); }
+        
+        /* CTA */
+        .cta {
+            text-align: center;
+            padding: 100px 0;
+            background: radial-gradient(ellipse at bottom, rgba(59,130,246,0.1) 0%, transparent 60%);
+        }
+        .cta h2 { font-size: 40px; margin-bottom: 16px; }
+        .cta p { color: var(--text-muted); font-size: 18px; margin-bottom: 32px; }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+        
+        @media (max-width: 640px) {
+            .hero { padding: 60px 0 40px; }
+            .section { padding: 48px 0; }
+            .pipeline { gap: 4px; padding: 20px; }
+            .pipeline-step { padding: 6px 12px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-badge">🏭 Open Source • 14 скиллов • 6 агентов</div>
+        <h1>Команда AI-агентов<br>для твоего контента</h1>
+        <p>Посты, видео, карусели, стратегия — 6 AI-агентов работают как команда. Установка за 5 минут. Работает 24/7 на твоём сервере.</p>
+        <div class="hero-buttons">
+            <a href="https://github.com/Mticool/ai-content-factory" class="btn btn-primary">
+                ⭐ GitHub
+            </a>
+            <a href="https://t.me/Mticool" class="btn btn-secondary">
+                💬 Задать вопрос
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Install -->
+<div class="container">
+    <div class="install-block">
+        <div class="install-header">
+            <div class="install-dots"><span></span><span></span><span></span></div>
+            Terminal
+        </div>
+        <div class="install-code">
+            <div class="comment"># Установка одной командой</div>
+            <div>curl -sSL https://raw.githubusercontent.com/Mticool/ai-content-factory/main/install.sh | bash</div>
+        </div>
+    </div>
+</div>
+
+<!-- Pipeline -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Как это работает</h2>
+        <p class="section-subtitle">Ты пишешь боту в Telegram — получаешь готовый контент в стиле твоего бренда</p>
+        <div class="pipeline">
+            <div class="pipeline-step">💡 Идея</div>
+            <span class="pipeline-arrow">→</span>
+            <div class="pipeline-step">🔍 Ресёрч</div>
+            <span class="pipeline-arrow">→</span>
+            <div class="pipeline-step">📋 Бриф</div>
+            <span class="pipeline-arrow">→</span>
+            <div class="pipeline-step">✏️ Драфт</div>
+            <span class="pipeline-arrow">→</span>
+            <div class="pipeline-step">👀 Ревью</div>
+            <span class="pipeline-arrow">→</span>
+            <div class="pipeline-step">✅ Готово</div>
+        </div>
+    </div>
+</section>
+
+<!-- Agents -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">6 агентов в команде</h2>
+        <p class="section-subtitle">Каждый специализируется на своём. Как настоящая команда, только быстрее и дешевле.</p>
+        <div class="agents-grid">
+            <div class="agent-card">
+                <div class="agent-icon">🎯</div>
+                <h3>Оркестратор</h3>
+                <p>Координирует команду, распределяет задачи, контролирует качество</p>
+                <div class="agent-skills">
+                    <span class="skill-tag">routing</span>
+                    <span class="skill-tag">QA</span>
+                    <span class="skill-tag">learning loop</span>
+                </div>
+            </div>
+            <div class="agent-card">
+                <div class="agent-icon">✍️</div>
+                <h3>Райтер</h3>
+                <p>Посты, статьи, Threads, Telegram — тексты в стиле бренда</p>
+                <div class="agent-skills">
+                    <span class="skill-tag">copywriting</span>
+                    <span class="skill-tag">storytelling</span>
+                    <span class="skill-tag">threads</span>
+                    <span class="skill-tag">telegram</span>
+                    <span class="skill-tag">headlines</span>
+                    <span class="skill-tag">editing</span>
+                </div>
+            </div>
+            <div class="agent-card">
+                <div class="agent-icon">🎬</div>
+                <h3>Видеограф</h3>
+                <p>Сценарии для YouTube, Reels, Shorts, TikTok</p>
+                <div class="agent-skills">
+                    <span class="skill-tag">youtube</span>
+                    <span class="skill-tag">reels</span>
+                    <span class="skill-tag">shorts</span>
+                    <span class="skill-tag">SEO</span>
+                </div>
+            </div>
+            <div class="agent-card">
+                <div class="agent-icon">🧠</div>
+                <h3>Стратег</h3>
+                <p>Стратегии, офферы, кастдев, продающие смыслы, прогревы</p>
+                <div class="agent-skills">
+                    <span class="skill-tag">offer</span>
+                    <span class="skill-tag">customer research</span>
+                    <span class="skill-tag">selling meanings</span>
+                </div>
+            </div>
+            <div class="agent-card">
+                <div class="agent-icon">🎨</div>
+                <h3>Дизайнер</h3>
+                <p>Карусели для Instagram, обложки, AI-генерация картинок</p>
+                <div class="agent-skills">
+                    <span class="skill-tag">carousel</span>
+                    <span class="skill-tag">AI images</span>
+                    <span class="skill-tag">thumbnails</span>
+                </div>
+            </div>
+            <div class="agent-card">
+                <div class="agent-icon">📊</div>
+                <h3>Аналитик</h3>
+                <p>Оценка контента, сбор референсов, learning loop</p>
+                <div class="agent-skills">
+                    <span class="skill-tag">swipefile</span>
+                    <span class="skill-tag">metrics</span>
+                    <span class="skill-tag">patterns</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Почему это работает</h2>
+        <p class="section-subtitle">Не просто ChatGPT-обёртка. Полноценная система с памятью и обучением.</p>
+        <div class="features-grid">
+            <div class="feature">
+                <div class="feature-icon">🧬</div>
+                <h3>Пишет в ТВОЁМ стиле</h3>
+                <p>Заполни 3 файла (профиль, стиль, аудитория) — и все агенты будут работать в едином голосе бренда</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔄</div>
+                <h3>Learning Loop</h3>
+                <p>Система запоминает что тебе нравится (👍) и чего избегать (👎). С каждым днём — точнее</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🏠</div>
+                <h3>Всё на твоём сервере</h3>
+                <p>Данные не уходят на чужие серверы. Полный контроль. VPS от $4/мес</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📱</div>
+                <h3>Telegram-интерфейс</h3>
+                <p>Пишешь боту в Telegram — получаешь контент. Никаких сложных интерфейсов</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔌</div>
+                <h3>14 скиллов из коробки</h3>
+                <p>Копирайтинг, YouTube, Reels, карусели, офферы, кастдев и ещё 8 скиллов</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>5 минут на установку</h3>
+                <p>Один скрипт спросит имя, бренд и API-ключ. Всё остальное — автоматически</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Examples -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Примеры запросов</h2>
+        <p class="section-subtitle">Просто напиши боту — он поймёт и сделает</p>
+        <div class="examples">
+            <div class="example">
+                <div class="example-prompt">"Напиши пост для Telegram про 5 ошибок начинающих предпринимателей"</div>
+                <div class="example-result">→ Райтер создаст пост с хуком, раскрытием и CTA в стиле бренда</div>
+            </div>
+            <div class="example">
+                <div class="example-prompt">"Сценарий рилса: почему 90% стартапов закрываются"</div>
+                <div class="example-result">→ Видеограф напишет сценарий с таймингом, ТНК и B-roll подсказками</div>
+            </div>
+            <div class="example">
+                <div class="example-prompt">"Карусель на 7 слайдов: как выбрать нишу"</div>
+                <div class="example-result">→ Дизайнер создаст структуру карусели с текстами для каждого слайда</div>
+            </div>
+            <div class="example">
+                <div class="example-prompt">"Разработай стратегию прогрева для запуска курса"</div>
+                <div class="example-result">→ Стратег составит план на 7-14 дней с воронкой и контент-планом</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Стоимость</h2>
+        <p class="section-subtitle">Дешевле одного фрилансера — а у тебя целая команда 24/7</p>
+        <div class="pricing-card">
+            <h3>AI Content Factory</h3>
+            <div class="price">Бесплатно <span>/ open-source</span></div>
+            <ul class="pricing-list">
+                <li>6 AI-агентов с 14 скиллами</li>
+                <li>Установка одной командой</li>
+                <li>Learning loop (система учится)</li>
+                <li>Telegram-интерфейс</li>
+                <li>Notion-интеграция</li>
+                <li>Обновления и поддержка</li>
+            </ul>
+            <p style="color: var(--text-muted); font-size: 14px; margin-top: 16px;">
+                Дополнительно: VPS ~$5/мес + Anthropic API ~$20-50/мес
+            </p>
+            <a href="https://github.com/Mticool/ai-content-factory" class="btn btn-primary" style="margin-top: 24px; width: 100%; justify-content: center;">
+                Установить бесплатно
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Частые вопросы</h2>
+        <div class="faq">
+            <div class="faq-item">
+                <div class="faq-q">Нужно ли уметь программировать?</div>
+                <div class="faq-a">Нет. Установка автоматическая, общение через Telegram. Нужно только заполнить 3 файла о своём бренде.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">На каких языках работает?</div>
+                <div class="faq-a">Русский и английский. Можно адаптировать под любой язык — просто заполни brand-файлы на нужном языке.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">Чем отличается от ChatGPT?</div>
+                <div class="faq-a">Это не чат с одним ботом. Это команда из 6 специализированных агентов с памятью, обучением и скиллами. Они помнят твой стиль и учатся на каждом фидбеке.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">Мои данные в безопасности?</div>
+                <div class="faq-a">Да. Всё работает на твоём сервере. Данные никуда не отправляются кроме API-запросов к модели.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">Можно добавить своих агентов?</div>
+                <div class="faq-a">Да. Создай папку с SOUL.md и добавь в роутинг оркестратора. Подробнее в документации.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">Сколько стоит в месяц?</div>
+                <div class="faq-a">Сам продукт бесплатный. VPS ~$5/мес + Anthropic API ~$20-50/мес в зависимости от использования. Итого $25-55/мес за целую команду.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+    <div class="container">
+        <h2>Готов запустить свою<br>контент-фабрику?</h2>
+        <p>5 минут на установку. 3 файла о бренде. И у тебя команда из 6 AI-агентов.</p>
+        <div class="hero-buttons">
+            <a href="https://github.com/Mticool/ai-content-factory" class="btn btn-primary">
+                🚀 Начать бесплатно
+            </a>
+            <a href="https://t.me/Mticool" class="btn btn-secondary">
+                💬 Написать автору
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <p>
+            AI Content Factory — by <a href="https://t.me/Mticool">@Mticool</a> •
+            Работает на <a href="https://openclaw.ai">OpenClaw</a> •
+            <a href="https://github.com/Mticool/ai-content-factory">GitHub</a>
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>

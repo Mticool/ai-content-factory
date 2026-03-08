@@ -3,7 +3,7 @@
 > Команда AI-агентов для создания контента — посты, видео, карусели, стратегия.
 > Установка в один клик. Работает 24/7 на вашем сервере.
 
-**Автор:** [Marat](https://t.me/Mticool) | Создано на базе [OpenClaw](https://openclaw.ai)
+**Автор:** [Marat](https://t.me/Mticool) | Создано на базе [OpenClaw](https://openclaw.ai) | [Лендинг](https://mticool.github.io/ai-content-factory/landing/)
 
 ---
 
@@ -166,11 +166,19 @@ A: Да, всё работает на вашем сервере. Никакие 
 
 ---
 
+## Документация
+
+- 📖 [Быстрый старт](docs/QUICK-START.md) — 5 минут до старта
+- 📖 [Ручная установка](docs/MANUAL-INSTALL.md) — пошагово
+- 📖 [Настройка Notion](docs/NOTION-SETUP.md) — контент-план и аналитика
+- 📖 [Свои агенты](docs/CUSTOM-AGENTS.md) — добавить агента
+- 📖 [Примеры](docs/EXAMPLES.md) — что можно попросить
+- 📋 [Changelog](CHANGELOG.md)
+
 ## Поддержка
 
 - 📱 Telegram: [@Mticool](https://t.me/Mticool)
 - 💬 Чат поддержки: [скоро]
-- 📖 Документация: [docs/](docs/)
 
 ---
 

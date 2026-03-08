@@ -1,0 +1,69 @@
+# AI Content Factory — OpenClaw Config Template
+# Скопируй в ~/.openclaw/config.yaml и заполни свои данные
+
+# === API ===
+anthropic:
+  apiKey: "sk-ant-YOUR_KEY"  # https://console.anthropic.com
+
+# === Telegram ===
+telegram:
+  token: "YOUR_BOT_TOKEN"   # Получи через @BotFather
+  allowedUsers:
+    - "YOUR_TELEGRAM_ID"    # Узнай через @userinfobot
+
+# === Агенты ===
+agents:
+  # Оркестратор (главный)
+  - id: orchestrator
+    name: "🎯 Оркестратор"
+    model: claude-sonnet-4
+    workspace: agents/orchestrator
+    telegram:
+      bot: default
+    subagents:
+      - writer
+      - video
+      - strategist
+      - designer
+      - analyst
+
+  # Райтер (тексты)
+  - id: writer
+    name: "✍️ Райтер"
+    model: claude-sonnet-4
+    workspace: agents/writer
+
+  # Видеограф (сценарии)
+  - id: video
+    name: "🎬 Видеограф"
+    model: claude-sonnet-4
+    workspace: agents/video
+
+  # Стратег
+  - id: strategist
+    name: "🧠 Стратег"
+    model: claude-sonnet-4
+    workspace: agents/strategist
+
+  # Дизайнер
+  - id: designer
+    name: "🎨 Дизайнер"
+    model: claude-sonnet-4
+    workspace: agents/designer
+
+  # Аналитик
+  - id: analyst
+    name: "📊 Аналитик"
+    model: claude-haiku-4-5
+    workspace: agents/analyst
+
+# === Notion (опционально) ===
+# notion:
+#   apiKey: "ntn_YOUR_KEY"
+
+# === Расписание (опционально) ===
+# cron:
+#   - name: "daily-review"
+#     schedule: "0 9 * * *"
+#     agent: analyst
+#     task: "Проверь learning/ и обнови паттерны"

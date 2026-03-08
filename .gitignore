@@ -1,0 +1,27 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+
+# Node
+node_modules/
+
+# Private data
+.env
+.env.*
+*.db
+*.sqlite
+*.log
+
+# Memory (personal data)
+agents/*/memory/
+
+# OpenClaw local
+.openclaw/
+
+# Syncthing
+*.sync-conflict-*
+.syncthing.*

@@ -20,6 +20,18 @@ AI Content Factory — это готовая система из **6 AI-аген
 | 🎨 **Дизайнер** | Визуал | Карусели, обложки, AI-картинки |
 | 📊 **Аналитик** | Качество | Оценка контента, метрики, learning loop |
 
+## Как это выглядит
+
+<div align="center">
+<table>
+<tr>
+<td align="center"><img src="landing/chat-writer.png" width="280"><br><b>✍️ Райтер</b> — посты</td>
+<td align="center"><img src="landing/chat-video.png" width="280"><br><b>🎬 Видеограф</b> — сценарии</td>
+<td align="center"><img src="landing/chat-strategy.png" width="280"><br><b>🎯 Стратег</b> — планы</td>
+</tr>
+</table>
+</div>
+
 ## Как это работает
 
 ```
